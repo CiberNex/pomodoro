@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pomodoro Focus</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <h1>Pomodoro Focus</h1>
+      <p class="subtitle">Cronómetro automático para estudiar con la técnica Pomodoro.</p>
+
+      <section class="timer-card" aria-live="polite">
+        <p id="session-label" class="session">Sesión de enfoque</p>
+        <p id="timer" class="time">25:00</p>
+        <p id="cycle" class="cycle">Ciclo: 1 / 4</p>
+      </section>
+
+      <section class="controls">
+        <button id="start-pause" class="primary">Iniciar</button>
+        <button id="reset" class="secondary">Reiniciar</button>
+      </section>
+
+      <details class="info">
+        <summary>Cómo funciona</summary>
+        <ul>
+          <li>25 minutos de enfoque</li>
+          <li>5 minutos de descanso corto tras cada bloque</li>
+          <li>15 minutos de descanso largo después de 4 bloques</li>
+          <li>Los cambios de sesión son automáticos</li>
+        </ul>
+      </details>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
