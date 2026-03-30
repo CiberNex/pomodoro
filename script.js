@@ -15,6 +15,7 @@ let cycle = 1;
 let secondsLeft = DURATIONS.focus;
 let isRunning = false;
 let intervalId;
+let audioContext;
 
 function formatTime(seconds) {
   const min = Math.floor(seconds / 60)
@@ -36,6 +37,47 @@ function paint() {
   sessionEl.classList.toggle("rest", mode !== "focus");
   cycleEl.textContent = `Ciclo: ${cycle} / 4`;
   document.title = `${timerEl.textContent} · ${sessionEl.textContent}`;
+}
+
+function getAudioContext() {
+  const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+  if (!AudioContextClass) {
+    return null;
+  }
+
+  if (!audioContext) {
+    audioContext = new AudioContextClass();
+  }
+
+  if (audioContext.state === "suspended") {
+    audioContext.resume();
+  }
+
+  return audioContext;
+}
+
+function playEndSound() {
+  const ctx = getAudioContext();
+  if (!ctx) {
+    return;
+  }
+
+  const now = ctx.currentTime;
+  const oscillator = ctx.createOscillator();
+  const gainNode = ctx.createGain();
+
+  oscillator.type = "sine";
+  oscillator.frequency.setValueAtTime(880, now);
+
+  gainNode.gain.setValueAtTime(0.0001, now);
+  gainNode.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
+  gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+
+  oscillator.connect(gainNode);
+  gainNode.connect(ctx.destination);
+
+  oscillator.start(now);
+  oscillator.stop(now + 0.24);
 }
 
 function nextSession() {
@@ -68,6 +110,7 @@ function tick() {
     return;
   }
 
+  playEndSound();
   nextSession();
 }
 
