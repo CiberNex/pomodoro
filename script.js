@@ -66,18 +66,20 @@ function playEndSound() {
   const oscillator = ctx.createOscillator();
   const gainNode = ctx.createGain();
 
-  oscillator.type = "sine";
-  oscillator.frequency.setValueAtTime(880, now);
+  oscillator.type = "square";
+  oscillator.frequency.setValueAtTime(600, now);
 
-  gainNode.gain.setValueAtTime(0.0001, now);
-  gainNode.gain.exponentialRampToValueAtTime(0.18, now + 0.02);
-  gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+  gainNode.gain.setValueAtTime(0.001, now);
+  gainNode.gain.exponentialRampToValueAtTime(0.5, now + 0.05);
+
+  gainNode.gain.setValueAtTime(0.5, now + 0.3);
+  gainNode.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
 
   oscillator.connect(gainNode);
   gainNode.connect(ctx.destination);
 
   oscillator.start(now);
-  oscillator.stop(now + 0.24);
+  oscillator.stop(now + 1.2); 
 }
 
 function nextSession() {
